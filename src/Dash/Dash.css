@@ -1,0 +1,54 @@
+
+.header {
+  background-color: var(--dark-back);
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding:1rem;
+  border-radius: 4rem;
+  margin-left: 1.6rem;
+  margin-right: 1.6rem;
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(2rems);
+
+}
+
+.header button {
+    color: var(--light-back);
+    background-color: inherit;
+    font-size: 1.9rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    padding-left: 0.9rem;
+    padding-right:0.9rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: ease-in 0.3s;
+}
+
+.header button:hover {
+    color: var(--dark-back);
+    background-color: var(--light-back);
+    
+}
+
+.header button:active {
+    transform: scale(0.94);
+    transition: ease-in-out 0.07s;
+
+}
+
+#Logo {
+    padding-left: 3rem;
+    height: 4rem;
+    width: auto;
+}
+
+.connectButton {
+    padding-right: 4rem;
+    display: flex;
+    gap: 2rem;
+}
