@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Herodash from './Dash'
+import Herodash from './Dash/Dash'
 import './App.css'
 
 function App() {
