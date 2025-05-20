@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Herodash from './Dash'
 import './App.css'
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
 
   return (
     <>
-      <h1>The Work will be here</h1>
+      <Herodash />
     </>
   )
 }
