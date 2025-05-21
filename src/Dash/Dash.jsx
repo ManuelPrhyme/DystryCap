@@ -18,6 +18,7 @@ const Herodash = () => {
   const [Provider, setProvider] = useState();
   const [Signer, setSigner] = useState() 
   const [Accounts, setAccounts] = useState([]);
+  const [activeChainId, setChainId] = useState('')
 
   // ---Connect Function----
   const connect = async () => {
@@ -45,6 +46,11 @@ const Herodash = () => {
       setIsConnected(false);
 
   }
+
+  // Retrieve Spending Caps Functions
+    const getCaps = async () => {
+      
+    }
 
   useEffect(()=>{
 
@@ -102,7 +108,40 @@ const Herodash = () => {
 
         {/* content Area */}
         <div className='contentArea'>
-          Assigned Caps
+          
+          <div className='Assigned Spending Caps'>
+            <h2 className='head'> Assigned amounts </h2>
+             <hr className='hr'/>
+          
+            <div className='capbtns'>
+               
+               <button className='activeChainCaps'>
+                Ethereum Amounts         
+               </button>
+
+               <button>
+                All Chains Amounts
+               </button>
+
+            </div>
+
+            <div className = 'caps'>
+
+            </div>
+
+
+
+          </div>
+          
+          <div>
+            <h2 className='head'>Spend tokens</h2>
+            <hr className='hr'/>
+          </div>
+          
+          <div>
+            <h2 className='head'>Assign spending amounts</h2>
+            <hr className='hr'/>
+          </div>
         </div>
 
     </div>
