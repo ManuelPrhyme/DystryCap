@@ -80,7 +80,7 @@
     background-color: white;
     color:black;
     display: grid;
-    grid-template-columns: 1.8fr 1.3fr 1.5fr;
+    grid-template-columns: 1.5fr 1.3fr 1.5fr;
     justify-content: space-around;
     min-height: 82vh ;
     margin:0.7rem;
@@ -129,5 +129,160 @@
     width:auto;
 
 }
+
+/* Caps by Chain */
+
+.caps {
+    padding-left:0;
+    margin-left:0;
+}
+
+.CapsHead {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left:0;
+    margin-left:0;
+}
+
+.CapsHead h3 {
+    padding-left:0;
+    margin-left:0;
+}
+
+
+.CapsHead img {
+    height:2rem;
+    width: auto;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+
+/* Spend Tokens Section */
+.spendContent {
+    padding-left:0;
+    margin-left:0;
+}
+
+
+.warning {
+    color: rgb(189, 22, 22);
+    padding:2px;
+    margin:2px;
+}
+
+#recepient {
+    padding:0;
+    margin:0;
+    margin-top:2.2rem;
+}
+
+#recepient h4 {
+    margin: 0;
+    padding: 7px;
+    margin-bottom: 0px;
+}
+
+#recepient input {
+    width: 85%;
+    height: 25px;
+    border: 1px solid var(--dark-back);
+    background-color: white;
+    font-size:0.94rem;
+    font-weight: 400;
+    font-style:inherit;
+    outline: none;
+}
+
+#recepient button {
+    border: none;
+    background-color: var(--dark-back);
+    color: var(--light-back);
+    font-size:1rem;
+    padding-top:2px;
+    padding-bottom:2px;
+    cursor:pointer;
+    transition: ease-in 0.3s;
+    height: 25px;
+    text-align:center;
+
+}
+
+#recepient button:hover {
+ color: var(--dark-back);
+background-color: var(--light-back);
+border: 1px solid var(--dark-back);
+
+}
+
+#recepient button:active {
+    transform: scale(0.94);
+    transition: ease-in-out 0.07s;
+}
+
+
+/* Accounts Delegation */
+.delegateContent {
+    padding-left:0;
+    margin-left:0;
+}
+
+.warning {
+    color: rgb(189, 22, 22);
+    padding:2px;
+    margin:2px;
+}
+
+#Delegate {
+    padding:0;
+    margin:0;
+    margin-top:2.2rem;
+}
+
+#Delegate h4 {
+    margin: 0;
+    padding: 7px;
+    margin-bottom: 0px;
+}
+
+#Delegate input {
+    width: 85%;
+    height: 25px;
+    border: 1px solid var(--dark-back);
+    background-color: white;
+    font-size:0.94rem;
+    font-weight: 400;
+    font-style:inherit;
+    outline: none;
+}
+
+#Delegate button {
+    border: none;
+    background-color: var(--dark-back);
+    color: var(--light-back);
+    font-size:1rem;
+    padding-top:2px;
+    padding-bottom:2px;
+    cursor:pointer;
+    transition: ease-in 0.3s;
+    height: 25px;
+    text-align:center;
+
+}
+
+#Delegate button:hover {
+ color: var(--dark-back);
+background-color: var(--light-back);
+border: 1px solid var(--dark-back);
+
+}
+
+#Delegate button:active {
+    transform: scale(0.94);
+    transition: ease-in-out 0.07s;
+}
+
+
 
 

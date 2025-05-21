@@ -7,7 +7,8 @@ import Arb from '../assets/chainlogos/arblg.svg'
 import Celo from '../assets/chainlogos/celolg.svg'
 import Op from '../assets/chainlogos/oplg.svg'
 import Uni from '../assets/chainlogos/uinlg.svg'
-// import Base from '../assets/chainlogos/baselg.svg'
+import Base from '../assets/chainlogos/baselg.svg'
+import {chainsConfig,ERC20_ABI} from './chainConfigs'
 
 
 // import {connect} from './Utils'
@@ -19,6 +20,8 @@ const Herodash = () => {
   const [Signer, setSigner] = useState() 
   const [Accounts, setAccounts] = useState([]);
   const [activeChainId, setChainId] = useState('')
+  const [Recepient,setRecepient] = useState()
+  const [Delegate,setDelegate] = useState()
 
   // ---Connect Function----
   const connect = async () => {
@@ -27,7 +30,7 @@ const Herodash = () => {
             const _accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
             const _Provider = new ethers.BrowserProvider(window.ethereum)
             const _Signer =  await _Provider.getSigner()
-            await _Signer.signMessage(`Welcome to Dystry Cap ${Eth}`)
+            await _Signer.signMessage(`Welcome to Dystry Cap`)
             setProvider(_Provider)
             setSigner(_Signer)
             console.log(_accounts);
@@ -50,6 +53,10 @@ const Herodash = () => {
   // Retrieve Spending Caps Functions
     const getCaps = async () => {
       
+      const Contract = new ethers.Contract(chainsConfig.ethereumSepolia.tokenContractUSDC_Testnet, ERC20_ABI, Provider)
+      
+      // const
+
     }
 
   useEffect(()=>{
@@ -110,37 +117,134 @@ const Herodash = () => {
         <div className='contentArea'>
           
           <div className='Assigned Spending Caps'>
-            <h2 className='head'> Assigned amounts </h2>
+            <h2 className='section_head'> Assigned amounts </h2>
              <hr className='hr'/>
           
             <div className='capbtns'>
-               
+{/*                
                <button className='activeChainCaps'>
                 Ethereum Amounts         
                </button>
 
                <button>
                 All Chains Amounts
-               </button>
+               </button> */}
 
             </div>
 
+            {/* The Caps */}
             <div className = 'caps'>
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Base} alt="" />
+                    <h3>Base Sepolia</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
+
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Celo} alt="" />
+                    <h3>Celo Alfajores</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
+
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Eth} alt="" />
+                    <h3>Sepolia</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
+
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Arb} alt="" />
+                    <h3>Arbitrum Sepolia</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
+
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Op} alt="" />
+                    <h3>Optimism Sepolia</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
+
+              <div className='Caps'>
+                  <div className = 'CapsHead' >
+                    <img src={Uni} alt="" />
+                    <h3>Unichain Sepolia</h3>
+                  </div>
+                  <div className='capsData'>
+                    <h4>The caps go here</h4>
+                  </div>
+              </div>
 
             </div>
-
-
 
           </div>
           
+          {/* Spend Tokens Section */}
           <div>
+      
             <h2 className='head'>Spend tokens</h2>
             <hr className='hr'/>
+
+            <div className='spendContent'>  
+            <h5 className='warning'>
+            Note: You can only spend tokens on the active chain. Switch to desired chain
+            </h5>
+
+              <div id='recepient'>
+                <h4>Enter recepient's address below</h4>
+                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Recepient} onChange={(e)=>{setRecepient(e.target.value)}} />
+                <button >Send Tokens</button>
+              </div>
+            </div>
+            
           </div>
           
           <div>
             <h2 className='head'>Assign spending amounts</h2>
             <hr className='hr'/>
+
+              <div className='delegateContent'>  
+            <h5 className='warning'>
+            Note: You can only delegate tokens on the active chain. Switch to desired chain
+            </h5>
+
+              <div id='Delegate'>
+                <h4>Enter delegate's address below</h4>
+                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Delegate} onChange={(e)=>{setDelegate(e.target.value)}} />
+                <button >Delegate</button>
+              </div>
+            </div>
+
           </div>
         </div>
 
