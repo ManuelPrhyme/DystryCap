@@ -1,17 +1,24 @@
-
+/* Header */
 .header {
   background-color: var(--dark-back);
   padding-left: 2.5rem;
   padding-right: 2.5rem;
-  padding:1rem;
+  padding:1.5rem;
   border-radius: 4rem;
   margin-left: 1.6rem;
   margin-right: 1.6rem;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(2rems);
+  height: 60px;
+}
+
+.logos {
+    height:3rem;
+    width:auto;
+
 
 }
 
@@ -27,6 +34,7 @@
     border-radius: 2rem;
     cursor: pointer;
     transition: ease-in 0.3s;
+    height: 45px;
 }
 
 .header button:hover {
@@ -42,7 +50,7 @@
 }
 
 #Logo {
-    padding-left: 3rem;
+    padding-left: 2rem;
     height: 4rem;
     width: auto;
 }
@@ -50,5 +58,19 @@
 .connectButton {
     padding-right: 4rem;
     display: flex;
+    align-items: center;
     gap: 2rem;
+}
+
+
+/* Content Area */
+.contentArea {
+    background-color: white;
+    display: flex;
+    height: 82vh ;
+    margin:0.7rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 2rem;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
 }

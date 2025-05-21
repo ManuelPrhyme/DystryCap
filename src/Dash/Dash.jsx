@@ -1,6 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import Logo from '../assets/Logo.png'
+import {ethers} from 'ethers'
 import './Dash.css'
+import Eth from '../assets/chainlogos/ethlg.svg'
+import Arb from '../assets/chainlogos/arblg.svg'
+import Celo from '../assets/chainlogos/celolg.svg'
+import Op from '../assets/chainlogos/oplg.svg'
+import Uni from '../assets/chainlogos/uinlg.svg'
+// import Base from '../assets/chainlogos/baselg.svg'
+
+
 // import {connect} from './Utils'
 
 const Herodash = () => {
@@ -15,6 +24,11 @@ const Herodash = () => {
     if(window.ethereum) {
         try {
             const _accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+            const _Provider = new ethers.BrowserProvider(window.ethereum)
+            const _Signer =  await _Provider.getSigner()
+            await _Signer.signMessage(`Welcome to Dystry Cap ${Eth}`)
+            setProvider(_Provider)
+            setSigner(_Signer)
             console.log(_accounts);
             setAccounts(_accounts);
             setIsConnected(true);
@@ -69,16 +83,26 @@ const Herodash = () => {
 
         {/* Dashboard */}
         <div className='dashboard'>
+
+            {/* Header */}
             <div className='header'>
                 <div className='Logo'>
                     <img src={Logo} id='Logo' alt="DystryCap Logo" />
                 </div>
+                <img className='logos' src={Eth} alt="" />
+                <img className='logos' src={Celo} alt="" />
+                <img className='logos' src={Arb} alt="" />
                 <div className='connectButton'>
                     { isConnected && Accounts ? <h2>{`${Accounts[0].substring(0,6)}...${Accounts[0].substring(Accounts[0].length-4)}`}</h2> : ''}
                     <button style = {{display: isConnected ? 'none' : 'flex'}} onClick={connect} id='connectbtn'>Connect</button>
                     <button style = {{display: isConnected? 'flex' : 'none'}} onClick={disconnect} id='connectbtn'>Disconnect</button>
                 </div>
             </div>
+        </div>
+
+        {/* content Area */}
+        <div className='contentArea'>
+          Assigned Caps
         </div>
 
     </div>
