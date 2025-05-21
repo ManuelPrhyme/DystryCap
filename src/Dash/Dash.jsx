@@ -27,6 +27,7 @@ const Herodash = () => {
   const [AmounttoSpend,setAmounttoSpend] = useState()
   const [AmounttoDelegate,setAmounttoDelegate] = useState()
   const [SendHash,setSendHash] = useState('')
+  const [DelegateHash,setDelegateHash] = useState('')
 
   // ---Connect Function----
   const connect = async () => {
@@ -111,6 +112,18 @@ const Herodash = () => {
 
       const Delegate = async () => {
 
+          try {
+        const USDC_Transfer_Contract = new ethers.Contract(chainsConfig[0].tokenContractUSDC_Testnet, ERC20_ABI, Signer)
+       
+        const delegate = await USDC_Transfer_Contract.approve(DelegatedAcc,parseUnits(AmounttoDelegate.toString(),6))
+        const Recepit = await delegate.wait()
+        console.log('Transaction was successful')
+        setDelegateHash(Recepit.hash)
+        } catch(error){
+          console.log('There was an error. Send failed',error)
+        }
+
+
       }
 
  
@@ -154,9 +167,9 @@ const Herodash = () => {
                 <div className='Logo'>
                     <img src={Logo} id='Logo' alt="DystryCap Logo" />
                 </div>
-                <img className='logos' src={Eth} alt="" />
+                {/* <img className='logos' src={Eth} alt="" />
                 <img className='logos' src={Celo} alt="" />
-                <img className='logos' src={Arb} alt="" />
+                <img className='logos' src={Arb} alt="" /> */}
                 <div className='connectButton'>
                     { isConnected && Accounts ? <h2>{`${Accounts[0].substring(0,6)}...${Accounts[0].substring(Accounts[0].length-4)}`}</h2> : ''}
                     <button style = {{display: isConnected ? 'none' : 'flex'}} onClick={connect} id='connectbtn'>Connect</button>
@@ -273,9 +286,9 @@ const Herodash = () => {
                 />
                 <button onClick={Spend}>Send USDC</button>
               </div>
-              <div>
+              {/* <div>
                 <h5 style={{display: SendHash ? 'flex' : 'none', cursor:'pointer'}}> <a onClick={()=>{setSendHash('')}}>{`Check explorer: ${SendHash.substring(0,6)}...${SendHash.substring(SendHash.length-4)}`}</a></h5>
-              </div>
+              </div> */}
             </div>
             
           </div>
@@ -290,9 +303,13 @@ const Herodash = () => {
             </h5>
 
               <div id='Delegate'>
-                <h4>Enter delegate's address below</h4>
+                <h4>Enter delegate's address</h4>
                 <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={DelegatedAcc} onChange={(e)=>{setDelegate(e.target.value)}} />
-                <button>Delegate</button>
+                 <h4>Enter amount</h4>
+                <input type="text" placeholder='0.25' value={AmounttoDelegate} 
+                onChange={(e)=>{setAmounttoDelegate(e.target.value);}}
+                />
+                <button onClick={Delegate}>Delegate</button>
               </div>
             </div>
 
