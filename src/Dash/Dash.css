@@ -132,9 +132,20 @@
 
 /* Caps by Chain */
 
+#AssignSecConnect {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
 .caps {
     padding-left:0;
     margin-left:0;
+}
+
+.caps hr {
+    color: #675fd6
+
 }
 
 .CapsHead {

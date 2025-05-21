@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Logo from '../assets/Logo.png'
-import {ethers} from 'ethers'
+import {ethers, parseUnits, formatUnits} from 'ethers'
 import './Dash.css'
 import Eth from '../assets/chainlogos/ethlg.svg'
 import Arb from '../assets/chainlogos/arblg.svg'
@@ -22,20 +22,26 @@ const Herodash = () => {
   const [activeChainId, setChainId] = useState('')
   const [Recepient,setRecepient] = useState()
   const [Delegate,setDelegate] = useState()
+  const [AssignedCaps,setAssignedCaps] = useState([])
+  const [ActiveChain,setActiveChain] = useState()
 
   // ---Connect Function----
   const connect = async () => {
     if(window.ethereum) {
         try {
-            const _accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
             const _Provider = new ethers.BrowserProvider(window.ethereum)
             const _Signer =  await _Provider.getSigner()
-            await _Signer.signMessage(`Welcome to Dystry Cap`)
+            const _accounts = await window.ethereum.request({method: 'eth_requestAccounts'})
+            const _activeChain =  await window.ethereum.request({method: "eth_chainId"})
+            // await _Signer.signMessage(`Welcome to Dystry Cap`)
             setProvider(_Provider)
             setSigner(_Signer)
-            console.log(_accounts);
             setAccounts(_accounts);
             setIsConnected(true);
+            setActiveChain(_activeChain);
+            console.log('Assigned provider..',Provider)
+            console.log('Assigned signer..',Signer)
+            getCaps()
         }
         catch(error){
             window.alert(`There was an error ${error}`)
@@ -51,21 +57,45 @@ const Herodash = () => {
   }
 
   // Retrieve Spending Caps Functions
-    const getCaps = async () => {
+
+      const getCaps = async () => {
+      const Caps = []
+
+      const USDC_ContractBase = new ethers.Contract(chainsConfig[0].tokenContractUSDC_Testnet, ERC20_ABI, Provider)
+          const AmountBase = await USDC_ContractBase.allowance('0x8f6dB7206B7b617c14fd39B26f48AD36963a48Be',Accounts[0])
+          // console.log('Check.....',AmountBase)
+          Caps.push(formatUnits(AmountBase.toString(),6))
       
-      const Contract = new ethers.Contract(chainsConfig.ethereumSepolia.tokenContractUSDC_Testnet, ERC20_ABI, Provider)
-      
-      // const
+      // const USDC_ContractCelo = new ethers.Contract(chainsConfig[1].tokenContractUSDC_Testnet, ERC20_ABI, Provider)
+      //     const AmountCelo = await USDC_ContractCelo.allowance('0x8f6dB7206B7b617c14fd39B26f48AD36963a48Be',Accounts[0])
+      //     // console.log('Check.....',AmountCelo)
+      //     Caps.push(formatUnits(AmountCelo.toString(),6))
 
-    }
+      // const USDC_ContractSepolia = new ethers.Contract(chainsConfig[2].tokenContractUSDC_Testnet, ERC20_ABI, Provider)
+      //   const AmountSepolia = await USDC_ContractSepolia.allowance('0x8f6dB7206B7b617c14fd39B26f48AD36963a48Be',Accounts[0])
+      //     // console.log('Check.....',AmountCelo)
+      //   Caps.push(formatUnits(AmountSepolia.toString(),6))
 
-  useEffect(()=>{
 
+      // for(let i = 0; i < chainsConfig.length; count++){
+      //     const USDC_Contract = new ethers.Contract(chainsConfig[i].tokenContractUSDC_Testnet, ERC20_ABI, Provider)
+      //     const Amount = await USDC_Contract.allowance('0x8f6dB7206B7b617c14fd39B26f48AD36963a48Be',Accounts[0])
+      //     console.log('Check.....',Amount)
+      //     Caps.push(formatUnits(Amount.toString(),6))
+      //   }
+        
+        setAssignedCaps(Caps)
+        }
+
+      getCaps()
+ 
+
+  // Check for Account Change and Check for Connected accounts
+    useEffect(()=>{
+        
     const check = async () => {
-      if(window.ethereum){  
-        try {
+          try {
           const _Accounts =  await window.ethereum.request({method: "eth_accounts"})
-          
            if(_Accounts > 0) { 
             setAccounts(_Accounts)
             setIsConnected(true)
@@ -75,8 +105,6 @@ const Herodash = () => {
           }catch(error){
             window.alert('The designs failed',error)
           }
-        }  
-
     } 
 
     check()
@@ -116,7 +144,7 @@ const Herodash = () => {
         {/* content Area */}
         <div className='contentArea'>
           
-          <div className='Assigned Spending Caps'>
+          { !isConnected ? <h3 id="AssignSecConnect">Connect Wallet</h3> : (<div className='Assigned Spending Caps'>
             <h2 className='section_head'> Assigned amounts </h2>
              <hr className='hr'/>
           
@@ -140,74 +168,64 @@ const Herodash = () => {
                     <h3>Base Sepolia</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
+                    <h4>{AssignedCaps[0] ? `${AssignedCaps[0]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                 <hr/> 
               <div className='Caps'>
                   <div className = 'CapsHead' >
                     <img src={Celo} alt="" />
                     <h3>Celo Alfajores</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
+                    <h4>{+AssignedCaps[1] ? `${AssignedCaps[1]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                <hr/>
               <div className='Caps'>
                   <div className = 'CapsHead' >
                     <img src={Eth} alt="" />
                     <h3>Sepolia</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
-                    <h4>The caps go here</h4>
+                    <h4>{AssignedCaps[2] ? `${AssignedCaps[2]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                <hr/>
               <div className='Caps'>
                   <div className = 'CapsHead' >
                     <img src={Arb} alt="" />
                     <h3>Arbitrum Sepolia</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
+                    <h4>{AssignedCaps[3] ? `${AssignedCaps[3]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                <hr/>
               <div className='Caps'>
                   <div className = 'CapsHead' >
                     <img src={Op} alt="" />
                     <h3>Optimism Sepolia</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
+                    <h4>{AssignedCaps[4] ? `${AssignedCaps[4]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                <hr/>
               <div className='Caps'>
                   <div className = 'CapsHead' >
                     <img src={Uni} alt="" />
                     <h3>Unichain Sepolia</h3>
                   </div>
                   <div className='capsData'>
-                    <h4>The caps go here</h4>
+                    <h4>{AssignedCaps[5] ? `${AssignedCaps[5]} USDT` : 'No Spending Cap found'}</h4>
                   </div>
               </div>
-
+                <hr/>
             </div>
 
-          </div>
+          </div>)
+          }
           
           {/* Spend Tokens Section */}
           <div>
@@ -222,7 +240,9 @@ const Herodash = () => {
 
               <div id='recepient'>
                 <h4>Enter recepient's address below</h4>
-                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Recepient} onChange={(e)=>{setRecepient(e.target.value)}} />
+                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Recepient} 
+                onChange={(e)=>{setRecepient(e.target.value);}}
+                />
                 <button >Send Tokens</button>
               </div>
             </div>
