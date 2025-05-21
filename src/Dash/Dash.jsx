@@ -20,10 +20,13 @@ const Herodash = () => {
   const [Signer, setSigner] = useState() 
   const [Accounts, setAccounts] = useState([]);
   const [activeChainId, setChainId] = useState('')
-  const [Recepient,setRecepient] = useState()
-  const [Delegate,setDelegate] = useState()
+  const [RecepientAcc,setRecepient] = useState('')
+  const [DelegatedAcc,setDelegate] = useState()
   const [AssignedCaps,setAssignedCaps] = useState([])
   const [ActiveChain,setActiveChain] = useState()
+  const [AmounttoSpend,setAmounttoSpend] = useState()
+  const [AmounttoDelegate,setAmounttoDelegate] = useState()
+  const [SendHash,setSendHash] = useState('')
 
   // ---Connect Function----
   const connect = async () => {
@@ -41,7 +44,8 @@ const Herodash = () => {
             setActiveChain(_activeChain);
             console.log('Assigned provider..',Provider)
             console.log('Assigned signer..',Signer)
-            getCaps()
+            
+            if(_Provider){getCaps()}
         }
         catch(error){
             window.alert(`There was an error ${error}`)
@@ -88,6 +92,27 @@ const Herodash = () => {
         }
 
       getCaps()
+
+
+      const Spend  = async () => {
+          
+        try {
+        const USDC_Transfer_Contract = new ethers.Contract(chainsConfig[0].tokenContractUSDC_Testnet, ERC20_ABI, Signer)
+       
+        const Transfer = await USDC_Transfer_Contract.transferFrom('0x8f6dB7206B7b617c14fd39B26f48AD36963a48Be',RecepientAcc,parseUnits(AmounttoSpend.toString(),6))
+        const Recepit = await Transfer.wait()
+        console.log('Transaction was successful')
+        setSendHash(Recepit.hash)
+        } catch(error){
+          console.log('There was an error. Send failed',error)
+        }
+
+      }
+
+      const Delegate = async () => {
+
+      }
+
  
 
   // Check for Account Change and Check for Connected accounts
@@ -112,7 +137,6 @@ const Herodash = () => {
     window.ethereum.on('accountsChanged',(accounts)=> {
       if(accounts.length > 0 ){
         setAccounts(accounts)
-        window.alert('Accounts have been changed')
         console.log('New accounts',accounts)
       }
     })
@@ -239,11 +263,18 @@ const Herodash = () => {
             </h5>
 
               <div id='recepient'>
-                <h4>Enter recepient's address below</h4>
-                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Recepient} 
+                <h4>Enter recepient's address</h4>
+                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={RecepientAcc} 
                 onChange={(e)=>{setRecepient(e.target.value);}}
                 />
-                <button >Send Tokens</button>
+                <h4>Enter amount</h4>
+                <input type="text" placeholder='0.25' value={AmounttoSpend} 
+                onChange={(e)=>{setAmounttoSpend(e.target.value);}}
+                />
+                <button onClick={Spend}>Send USDC</button>
+              </div>
+              <div>
+                <h5 style={{display: SendHash ? 'flex' : 'none', cursor:'pointer'}}> <a onClick={()=>{setSendHash('')}}>{`Check explorer: ${SendHash.substring(0,6)}...${SendHash.substring(SendHash.length-4)}`}</a></h5>
               </div>
             </div>
             
@@ -260,8 +291,8 @@ const Herodash = () => {
 
               <div id='Delegate'>
                 <h4>Enter delegate's address below</h4>
-                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={Delegate} onChange={(e)=>{setDelegate(e.target.value)}} />
-                <button >Delegate</button>
+                <input type="text" placeholder='0xF94CC1Eb19C43d73Eec9e55c13494abe1dfFb648' value={DelegatedAcc} onChange={(e)=>{setDelegate(e.target.value)}} />
+                <button>Delegate</button>
               </div>
             </div>
 
